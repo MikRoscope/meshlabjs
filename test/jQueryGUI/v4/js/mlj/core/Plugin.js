@@ -40,6 +40,7 @@ MLJ.core.plugin.Filter = function (name, singleArity) {
             _this._applyTo(meshFile);
         });
 
+        /*//Add the button "Apply to all visible layers"
         if (_this.singleArity === false) {
             var applyAll = MLJ.gui.build.button.Button("", "Apply to all visible layers",
             "../icons/IcoMoon-Free-master/PNG/48px/0289-forward3.png");
@@ -56,7 +57,7 @@ MLJ.core.plugin.Filter = function (name, singleArity) {
                 }
             });
         }
-
+        */
         _this._init(entry);
     };
 };

@@ -159,6 +159,7 @@ MLJ.core.plugin.Filter = function (parameters) {
             MLJ.gui.disabledOnSceneEmpty(apply);
         }
 
+        /*//Add the button "Apply to all visible layers"
         if (parameters.arity === 1) {
             var applyAll = new MLJ.gui.component.Button({
                 tooltip: "Apply to all visible layers",
@@ -183,6 +184,7 @@ MLJ.core.plugin.Filter = function (parameters) {
                 MLJ.widget.Log.append(name + " execution time " + Math.round(t1 - t0) + " ms");
             });
         }
+        */
 
         _this._init(filterBuilder);
     };
