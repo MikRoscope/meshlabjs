@@ -200,6 +200,40 @@
         Module.CutTopologicalFilter(basemeshFile.ptrMesh());
     };
 /******************************************************************************/  
+    /*
+    TODO: add RichPoint3f("viewPos",m.cm.shot.Extrinsics.Tra(),"Viewpoint Pos.","The viewpoint position can be set by hand (i.e. getting the current viewpoint) or it can be retrieved from mesh camera, if the viewpoint position is stored there."));
+	*/
+    var PointCloudNormal = new plugin.Filter({
+        name: "Point Cloud Normal Extrapolation",
+        tooltip: "Compute the normals of the vertices of a mesh without exploiting the triangle connectivity, useful for dataset with no faces",
+        arity: 1
+    });
+    var nNumWidget, smoothIterWidget, flipFlagWidget, viewPosWidget;
+    PointCloudNormal._init = function (builder) {
+        nNumWidget = builder.Integer({
+            max: 100, min: 0, step: 1, defval: "10",
+            label: "Neighbour num",
+            tooltip: "The number of neighbors used to estimate normals."
+        });
+
+        smoothIterWidget = builder.Integer({
+            max: 10, min: 0, step: 1, defval: "0",
+            label: "Smooth Iteration",
+            tooltip: "The number of smoothing iteration done on the p used to estimate and propagate normals."
+        });
+
+         flipFlagWidget = builder.Bool({
+            defval: false,
+            label: "Flip normals w.r.t. viewpoint",
+            tooltip: "If the 'viewpoint' (i.e. scanner position) is known, it can be used to disambiguate normals orientation, so that all the normals will be oriented in the same direction."
+        });
+    };
+
+    PointCloudNormal._applyTo = function (basemeshFile) {
+        Module.ComputePointCloudNormal(basemeshFile.ptrMesh(), nNumWidget.getValue(), smoothIterWidget.getValue(), flipFlagWidget.getValue());
+    };
+
+/******************************************************************************/  
 
     plugin.Manager.install(QuadricSimpFilter);
     plugin.Manager.install(ClusteringFilter);
@@ -210,5 +244,6 @@
     plugin.Manager.install(InvertFaceOrientation);
     plugin.Manager.install(CutAlongCrease);
     plugin.Manager.install(CutTopological);
+    plugin.Manager.install(PointCloudNormal);
     
 })(MLJ.core.plugin, MLJ.core.Scene);

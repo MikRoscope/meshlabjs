@@ -3,6 +3,7 @@
 #include <vcg/complex/algorithms/clustering.h>
 #include <vcg/complex/algorithms/convex_hull.h>
 #include<vcg/complex/algorithms/point_sampling.h>
+#include<vcg/complex/algorithms/pointcloud_normal.h>
 #include<vcg/complex/algorithms/voronoi_processing.h>
 #include<vcg/complex/algorithms/crease_cut.h>
 #include<vcg/complex/algorithms/curve_on_manifold.h>
@@ -198,6 +199,20 @@ void CutTopologicalFilter(uintptr_t _baseM)
   m.UpdateBoxAndNormals(); 
 }
 
+void ComputePointCloudNormal(uintptr_t _baseM, int kNearestNum, int smoothIter, bool flipFlag)
+{
+  MyMesh &mesh = *((MyMesh*) _baseM);
+  
+  tri::PointCloudNormal<MyMesh>::Param p;
+  p.fittingAdjNum = kNearestNum;
+  p.smoothingIterNum = smoothIter;
+  //p.viewPoint = par.getPoint3m("viewPos");
+  p.useViewPoint = flipFlag;
+  
+  tri::PointCloudNormal<MyMesh>::Compute(mesh, p);
+  
+}
+
 
 void MeshingPluginTEST()
 {
@@ -247,6 +262,7 @@ EMSCRIPTEN_BINDINGS(MLMeshingPlugin) {
     emscripten::function("VoronoiClustering",          &VoronoiClustering);
     emscripten::function("CutAlongCreaseFilter",       &CutAlongCreaseFilter);
     emscripten::function("CutTopologicalFilter",       &CutTopologicalFilter);
+    emscripten::function("ComputePointCloudNormal",    &ComputePointCloudNormal);
 }
 #endif
 
