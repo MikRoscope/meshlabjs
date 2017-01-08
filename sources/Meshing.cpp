@@ -208,9 +208,8 @@ void ComputePointCloudNormal(uintptr_t _baseM, int kNearestNum, int smoothIter, 
   p.smoothingIterNum = smoothIter;
   //p.viewPoint = par.getPoint3m("viewPos");
   p.useViewPoint = flipFlag;
-  
+
   tri::PointCloudNormal<MyMesh>::Compute(mesh, p);
-  
 }
 
 

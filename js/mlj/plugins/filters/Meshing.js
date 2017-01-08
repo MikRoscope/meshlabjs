@@ -230,8 +230,12 @@
     };
 
     PointCloudNormal._applyTo = function (basemeshFile) {
+
+        if(!basemeshFile.cppMesh.hasPerVertexNormal())
+            basemeshFile.cppMesh.addPerVertexNormal();
+
         Module.ComputePointCloudNormal(basemeshFile.ptrMesh(), nNumWidget.getValue(), smoothIterWidget.getValue(), flipFlagWidget.getValue());
-    };
+};
 
 /******************************************************************************/  
 
